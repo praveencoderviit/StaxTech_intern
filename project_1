@@ -1,0 +1,122 @@
+//index.html// HTLM code
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Password Generator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="generator-container">
+    <h1>PASSWORD GENERATOR</h1>
+    
+    <label>Password Length:</label>
+    <input type="number" id="length" min="4" max="30" value="12" />
+
+    <div class="options">
+      <label><input type="checkbox" id="uppercase" checked /> UPPER LETTERS</label><br/>
+      <label><input type="checkbox" id="lowercase" checked /> LOWER LETTERS</label><br/>
+      <label><input type="checkbox" id="numbers" checked /> NUMBERS</label><br/>
+      <label><input type="checkbox" id="symbols" checked /> SYMBOLS</label>
+    </div>
+
+    <button onclick="generatePassword()">Generate Password</button>
+    <input type="text" id="password" readonly />
+    <button onclick="copyPassword()">Copy</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+....///css code....
+body {
+    font-family: Arial, sans-serif;
+    background-color: yellowgreen;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .generator-container {
+    background: blueviolet;
+    padding: 30px;
+    border-radius: 12px;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(114, 16, 16, 0.1);
+  }
+  
+  input[type="number"],
+  input[type="text"] {
+    width: 100%;
+    padding: 10px 5px;
+    margin: 12px 0;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  input[type="number"]:focus,
+  input[type="text"]:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+  }
+  
+  
+  button {
+    padding: 10px 15px;
+    margin: 5px;
+    cursor: pointer;
+    color: black;
+  }
+  
+  
+  .....
+  ///javascript code
+
+  
+  function generatePassword() {
+    const length = document.getElementById("length").value;
+    const hasUpper = document.getElementById("uppercase").checked;
+    const hasLower = document.getElementById("lowercase").checked;
+    const hasNumber = document.getElementById("numbers").checked;
+    const hasSymbol = document.getElementById("symbols").checked;
+  
+    const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const lower = "abcdefghijklmnopqrstuvwxyz";
+    const numbers = "0123456789";
+    const symbols = "!@#$%^&*()_+[]{}|;:,.<>?";
+  
+    let allChars = "";
+    if (hasUpper) allChars += upper;
+    if (hasLower) allChars += lower;
+    if (hasNumber) allChars += numbers;
+    if (hasSymbol) allChars += symbols;
+  
+    if (allChars === "") {
+      alert("Please select at least one character type!");
+      return;
+    }
+  
+    let password = "";
+    for (let i = 0; i < length; i++) {
+      password += allChars.charAt(Math.floor(Math.random() * allChars.length));
+    }
+  
+    document.getElementById("password").value = password;
+  }
+  
+  function copyPassword() {
+    const passwordField = document.getElementById("password");
+    passwordField.select();
+    passwordField.setSelectionRange(0, 99999); // For mobile
+    document.execCommand("copy");
+    alert("Password copied to clipboard!");
+  }
+  
